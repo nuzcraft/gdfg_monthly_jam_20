@@ -42,3 +42,14 @@ What kinds of games have parry systems?
 - gladiator/arena/bossfight games
 
 I'm learning platformer controls and such w/ godot, so in an effort to keep scope down, I will pursue this option.
+
+## Needs/Requirments
+
+- [ ] small art style, 8x8 or 12x12
+  - restricted to a small palette, currently dawnbringer 8
+- [ ] player can jump, probably double jump
+- [ ] player can attack
+- [ ] one enemy
+  - [ ] enemy always parries player attacks
+  - [ ] if timed correctly, player parries enemy attacks
+- [ ] a story
