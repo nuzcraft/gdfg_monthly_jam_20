@@ -1,24 +1,21 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://aseprite/001_cactus_idle.png" type="Texture" id=1]
+[ext_resource path="res://aseprite/003_old_man.png" type="Texture" id=1]
+[ext_resource path="res://Player.gd" type="Script" id=2]
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 8, 8 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
 region = Rect2( 8, 0, 8, 8 )
 
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
-region = Rect2( 16, 0, 8, 8 )
-
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 1 ), SubResource( 3 ) ],
+"frames": [ SubResource( 6 ), SubResource( 7 ) ],
 "loop": true,
-"name": "Idle",
+"name": "idle",
 "speed": 5.0
 } ]
 
@@ -26,12 +23,13 @@ animations = [ {
 extents = Vector2( 2, 3.5 )
 
 [node name="Player" type="KinematicBody2D"]
+script = ExtResource( 2 )
+JUMP_RELEASE_VELOCITY = 30
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -4 )
 frames = SubResource( 4 )
-animation = "Idle"
-frame = 3
+animation = "idle"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
