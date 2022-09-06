@@ -3,7 +3,7 @@ extends KinematicBody2D
 export(int) var JUMP_VELOCITY = 120
 export(int) var JUMP_RELEASE_VELOCITY = 60
 export(int) var ACCELERATION = 150
-export(float) var ACCELERATION_DAMPING = 0.15
+export(float) var ACCELERATION_DAMPING = 0.12
 export(int) var FRICTION = 400
 export(int) var GRAVITY = 400
 export(int) var EXTRA_GRAVITY = 150
@@ -26,7 +26,6 @@ func _physics_process(delta):
 		MOVE: move_state(input, delta)
 	
 func move_state(input, delta):
-	
 	apply_gravity(delta)
 	
 	if input.x == 0:
