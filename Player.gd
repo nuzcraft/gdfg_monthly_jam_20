@@ -16,6 +16,8 @@ enum {
 var velocity = Vector2.ZERO
 var state = MOVE
 
+onready var animatedSprite := $AnimatedSprite
+
 
 func _physics_process(delta):
 	var input = Vector2.ZERO
@@ -32,6 +34,7 @@ func move_state(input, delta):
 		apply_friction(delta)
 	if input.x != 0:
 		apply_acceleration(input, delta)
+		animatedSprite.flip_h = input.x < 0
 		
 	if Input.is_action_just_pressed("ui_up") and is_on_floor():
 		velocity.y = -JUMP_VELOCITY
