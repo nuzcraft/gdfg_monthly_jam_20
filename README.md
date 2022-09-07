@@ -58,7 +58,7 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 
 ### Player Controller
 
-- [ ] #2 double jump - with ability to remove/add additional air jumps
+- [x] #2 double jump - with ability to remove/add additional air jumps
 - [ ] #3 jump buffer - player can press jump before hitting the ground and still jump
 - [ ] #5 coyote time - player can press jump after running off a ledge and still jump
 - [x] #1 horizontal flip for sprite

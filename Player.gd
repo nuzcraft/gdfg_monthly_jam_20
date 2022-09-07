@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 export(int) var JUMP_VELOCITY = 120
 export(int) var JUMP_RELEASE_VELOCITY = 60
+export(int) var DOUBLE_JUMP_COUNT = 1
 export(int) var ACCELERATION = 150
 export(float) var ACCELERATION_DAMPING = 0.12
 export(int) var FRICTION = 400
@@ -15,6 +16,7 @@ enum {
 
 var velocity = Vector2.ZERO
 var state = MOVE
+var double_jump = DOUBLE_JUMP_COUNT
 
 onready var animatedSprite := $AnimatedSprite
 
@@ -36,6 +38,9 @@ func move_state(input, delta):
 		apply_acceleration(input, delta)
 		animatedSprite.flip_h = input.x < 0
 		
+	if is_on_floor():
+		double_jump = DOUBLE_JUMP_COUNT
+		
 	if Input.is_action_just_pressed("ui_up") and is_on_floor():
 		velocity.y = -JUMP_VELOCITY
 		
@@ -45,6 +50,10 @@ func move_state(input, delta):
 
 		if velocity.y > 0:
 			velocity.y += EXTRA_GRAVITY * delta
+			
+		if Input.is_action_just_pressed("ui_up") and double_jump > 0:
+			velocity.y = -JUMP_VELOCITY
+			double_jump -= 1
 		
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
