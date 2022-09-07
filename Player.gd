@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export(int) var JUMP_VELOCITY = 120
 export(int) var JUMP_RELEASE_VELOCITY = 60
-export(int) var DOUBLE_JUMP_COUNT = 1
+export(int) var DOUBLE_JUMP_COUNT = 0
 export(int) var ACCELERATION = 150
 export(float) var ACCELERATION_DAMPING = 0.12
 export(int) var FRICTION = 400
@@ -17,9 +17,10 @@ enum {
 var velocity = Vector2.ZERO
 var state = MOVE
 var double_jump = DOUBLE_JUMP_COUNT
+var buffered_jump = false
 
 onready var animatedSprite := $AnimatedSprite
-
+onready var jumpBufferTimer := $JumpBufferTimer
 
 func _physics_process(delta):
 	var input = Vector2.ZERO
@@ -41,8 +42,10 @@ func move_state(input, delta):
 	if is_on_floor():
 		double_jump = DOUBLE_JUMP_COUNT
 		
-	if Input.is_action_just_pressed("ui_up") and is_on_floor():
-		velocity.y = -JUMP_VELOCITY
+	if is_on_floor():
+		if Input.is_action_just_pressed("ui_up") or buffered_jump:
+			velocity.y = -JUMP_VELOCITY
+		buffered_jump = false
 		
 	if not is_on_floor():
 		if Input.is_action_just_released("ui_up") and velocity.y < -JUMP_RELEASE_VELOCITY:
@@ -54,6 +57,10 @@ func move_state(input, delta):
 		if Input.is_action_just_pressed("ui_up") and double_jump > 0:
 			velocity.y = -JUMP_VELOCITY
 			double_jump -= 1
+			
+		if Input.is_action_just_pressed("ui_up"):
+			buffered_jump = true
+			jumpBufferTimer.start()
 		
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
@@ -68,3 +75,5 @@ func apply_acceleration(input, delta):
 func apply_friction(delta):
 	velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 		
+func _on_JumpBufferTimer_timeout():
+	buffered_jump = false
