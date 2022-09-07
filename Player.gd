@@ -18,9 +18,11 @@ var velocity = Vector2.ZERO
 var state = MOVE
 var double_jump = DOUBLE_JUMP_COUNT
 var buffered_jump = false
+var coyote_jump = false
 
 onready var animatedSprite := $AnimatedSprite
 onready var jumpBufferTimer := $JumpBufferTimer
+onready var coyoteJumpTimer := $CoyoteJumpTimer
 
 func _physics_process(delta):
 	var input = Vector2.ZERO
@@ -42,7 +44,7 @@ func move_state(input, delta):
 	if is_on_floor():
 		double_jump = DOUBLE_JUMP_COUNT
 		
-	if is_on_floor():
+	if is_on_floor() or coyote_jump:
 		if Input.is_action_just_pressed("ui_up") or buffered_jump:
 			velocity.y = -JUMP_VELOCITY
 		buffered_jump = false
@@ -62,7 +64,11 @@ func move_state(input, delta):
 			buffered_jump = true
 			jumpBufferTimer.start()
 		
+	var was_on_floor = is_on_floor()	
 	velocity = move_and_slide(velocity, Vector2.UP)
+	if was_on_floor and not is_on_floor():
+		coyote_jump = true
+		coyoteJumpTimer.start()
 	
 func apply_gravity(delta):
 	velocity.y += GRAVITY * delta
@@ -77,3 +83,6 @@ func apply_friction(delta):
 		
 func _on_JumpBufferTimer_timeout():
 	buffered_jump = false
+
+func _on_CoyoteJumpTimer_timeout():
+	coyote_jump = false
