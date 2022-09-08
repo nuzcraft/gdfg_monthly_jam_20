@@ -37,9 +37,11 @@ func move_state(input, delta):
 	
 	if input.x == 0:
 		apply_friction(delta)
+		animatedSprite.animation = "idle"
 	if input.x != 0:
 		apply_acceleration(input, delta)
 		animatedSprite.flip_h = input.x < 0
+		animatedSprite.animation = "running"
 		
 	if is_on_floor():
 		double_jump = DOUBLE_JUMP_COUNT
