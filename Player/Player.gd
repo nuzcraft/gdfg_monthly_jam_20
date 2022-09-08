@@ -25,7 +25,7 @@ onready var jumpBufferTimer := $JumpBufferTimer
 onready var coyoteJumpTimer := $CoyoteJumpTimer
 onready var runningSparksLeft := $RunningSparksLeft
 onready var runningSparksRight := $RunningSparksRight
-onready var dustParticles := $DustParticles
+onready var dustParticles := preload("res://Player/DustParticles.tscn")
 
 
 func _physics_process(delta):
@@ -60,7 +60,7 @@ func move_state(input, delta):
 		
 	if is_on_floor() or coyote_jump:
 		if Input.is_action_just_pressed("ui_up") or buffered_jump:
-			dustParticles.emitting = true
+			add_child(dustParticles.instance())
 			velocity.y = -JUMP_VELOCITY
 			buffered_jump = false
 		
@@ -88,7 +88,7 @@ func move_state(input, delta):
 		
 	var was_on_floor = is_on_floor()	
 	velocity = move_and_slide(velocity, Vector2.UP)
-	if was_on_floor and not is_on_floor():
+	if was_on_floor and not is_on_floor() and velocity.y > 0:
 		coyote_jump = true
 		coyoteJumpTimer.start()
 	
