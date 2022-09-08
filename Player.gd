@@ -23,6 +23,9 @@ var coyote_jump = false
 onready var animatedSprite := $AnimatedSprite
 onready var jumpBufferTimer := $JumpBufferTimer
 onready var coyoteJumpTimer := $CoyoteJumpTimer
+onready var runningSparksLeft := $RunningSparksLeft
+onready var runningSparksRight := $RunningSparksRight
+
 
 func _physics_process(delta):
 	var input = Vector2.ZERO
@@ -38,10 +41,16 @@ func move_state(input, delta):
 	if input.x == 0:
 		apply_friction(delta)
 		animatedSprite.animation = "idle"
+		runningSparksLeft.emitting = false
+		runningSparksRight.emitting = false
 	if input.x != 0:
 		apply_acceleration(input, delta)
 		animatedSprite.flip_h = input.x < 0
 		animatedSprite.animation = "running"
+		if input.x < 0:
+			runningSparksRight.emitting = true
+		if input.x > 0:
+			runningSparksLeft.emitting = true
 		
 	if is_on_floor():
 		double_jump = DOUBLE_JUMP_COUNT
