@@ -67,5 +67,4 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] #7 jumping animation
 - [ ] #8 double jump animation (spinning?)
 - [x] #9 falling animation
-- [ ] #10 particles on jump
-- [ ] #11 particles on land
+- [x] #10 particles on jump
