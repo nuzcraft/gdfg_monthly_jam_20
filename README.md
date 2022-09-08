@@ -66,6 +66,6 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] #6 particles from dragging the cane in run animation
 - [x] #7 jumping animation
 - [ ] #8 double jump animation (spinning?)
-- [ ] #9 falling animation
+- [x] #9 falling animation
 - [ ] #10 particles on jump
 - [ ] #11 particles on land
