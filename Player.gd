@@ -49,8 +49,10 @@ func move_state(input, delta):
 		animatedSprite.animation = "running"
 		if input.x < 0:
 			runningSparksRight.emitting = true
+			runningSparksLeft.emitting = false
 		if input.x > 0:
 			runningSparksLeft.emitting = true
+			runningSparksRight.emitting	= false
 		
 	if is_on_floor():
 		double_jump = DOUBLE_JUMP_COUNT
@@ -58,14 +60,21 @@ func move_state(input, delta):
 	if is_on_floor() or coyote_jump:
 		if Input.is_action_just_pressed("ui_up") or buffered_jump:
 			velocity.y = -JUMP_VELOCITY
-		buffered_jump = false
+			buffered_jump = false
 		
 	if not is_on_floor():
+		runningSparksLeft.emitting = false
+		runningSparksRight.emitting = false
 		if Input.is_action_just_released("ui_up") and velocity.y < -JUMP_RELEASE_VELOCITY:
 			velocity.y = -JUMP_RELEASE_VELOCITY
 
 		if velocity.y > 0:
 			velocity.y += EXTRA_GRAVITY * delta
+			animatedSprite.animation = "jump"
+			animatedSprite.frame = 1
+		else:
+			animatedSprite.animation = "jump"
+			animatedSprite.frame = 0
 			
 		if Input.is_action_just_pressed("ui_up") and double_jump > 0:
 			velocity.y = -JUMP_VELOCITY

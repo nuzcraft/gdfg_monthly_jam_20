@@ -1,40 +1,53 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://aseprite/003_old_man.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 8, 12, 8 )
+region = Rect2( 0, 9, 12, 9 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 1 )
-region = Rect2( 12, 8, 12, 8 )
+region = Rect2( 12, 9, 12, 9 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 12, 8 )
+region = Rect2( 0, 18, 12, 9 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 1 )
-region = Rect2( 12, 0, 12, 8 )
+region = Rect2( 12, 18, 12, 9 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 1 )
-region = Rect2( 24, 0, 12, 8 )
+region = Rect2( 0, 0, 12, 9 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 1 )
-region = Rect2( 36, 0, 12, 8 )
+region = Rect2( 12, 0, 12, 9 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 1 )
+region = Rect2( 24, 0, 12, 9 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 1 )
+region = Rect2( 36, 0, 12, 9 )
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ SubResource( 6 ), SubResource( 7 ) ],
+"frames": [ SubResource( 16 ), SubResource( 17 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"frames": [ SubResource( 18 ), SubResource( 19 ) ],
+"loop": false,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
 "loop": true,
 "name": "running",
 "speed": 5.0
@@ -43,24 +56,31 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 3.5, 3 )
 
-[sub_resource type="Gradient" id=12]
+[sub_resource type="Gradient" id=24]
+offsets = PoolRealArray( 0, 0.729032 )
 colors = PoolColorArray( 0.901961, 0.784314, 0.431373, 1, 0.843137, 0.45098, 0.333333, 1 )
 
-[sub_resource type="GradientTexture" id=13]
-gradient = SubResource( 12 )
+[sub_resource type="GradientTexture" id=25]
+gradient = SubResource( 24 )
 
-[sub_resource type="ParticlesMaterial" id=14]
+[sub_resource type="ParticlesMaterial" id=26]
 flag_disable_z = true
 direction = Vector3( -0.5, -1, 0 )
 spread = 15.0
 gravity = Vector3( 0, 98, 0 )
 initial_velocity = 40.0
 initial_velocity_random = 0.3
-angular_velocity = 228.11
-angular_velocity_random = 0.66
+angular_velocity = 228.1
+angular_velocity_random = 0.6
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-color_ramp = SubResource( 13 )
+color_ramp = SubResource( 25 )
+
+[sub_resource type="Gradient" id=12]
+colors = PoolColorArray( 0.901961, 0.784314, 0.431373, 1, 0.843137, 0.45098, 0.333333, 1 )
+
+[sub_resource type="GradientTexture" id=13]
+gradient = SubResource( 12 )
 
 [sub_resource type="ParticlesMaterial" id=15]
 flag_disable_z = true
@@ -69,7 +89,7 @@ spread = 15.0
 gravity = Vector3( 0, 98, 0 )
 initial_velocity = 40.0
 initial_velocity_random = 0.3
-angular_velocity = 228.11
+angular_velocity = -228.1
 angular_velocity_random = 0.66
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
@@ -80,10 +100,9 @@ script = ExtResource( 2 )
 JUMP_RELEASE_VELOCITY = 30
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -4 )
+position = Vector2( 0, -3.48548 )
 frames = SubResource( 4 )
-animation = "running"
-frame = 3
+animation = "idle"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -103,7 +122,7 @@ position = Vector2( -4, 0 )
 emitting = false
 lifetime = 0.5
 randomness = 0.5
-process_material = SubResource( 14 )
+process_material = SubResource( 26 )
 
 [node name="RunningSparksRight" type="Particles2D" parent="."]
 position = Vector2( 4, 0 )

@@ -64,7 +64,7 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] #1 horizontal flip for sprite
 - [x] #4 running animation - dragging the cane
 - [x] #6 particles from dragging the cane in run animation
-- [ ] #7 jumping animation
+- [x] #7 jumping animation
 - [ ] #8 double jump animation (spinning?)
 - [ ] #9 falling animation
 - [ ] #10 particles on jump
