@@ -47,10 +47,10 @@ func move_state(input, delta):
 		apply_acceleration(input, delta)
 		animatedSprite.flip_h = input.x < 0
 		animatedSprite.animation = "running"
-		if input.x < 0:
+		if input.x < 0 and velocity.x < 0:
 			runningSparksRight.emitting = true
 			runningSparksLeft.emitting = false
-		if input.x > 0:
+		if input.x > 0 and velocity.x > 0:
 			runningSparksLeft.emitting = true
 			runningSparksRight.emitting	= false
 		
