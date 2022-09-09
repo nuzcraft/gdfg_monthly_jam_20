@@ -134,7 +134,6 @@ JUMP_RELEASE_VELOCITY = 30
 position = Vector2( 0, -3.48548 )
 frames = SubResource( 4 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -155,6 +154,7 @@ position = Vector2( -4, 0 )
 emitting = false
 lifetime = 0.5
 randomness = 0.5
+local_coords = false
 process_material = SubResource( 26 )
 
 [node name="RunningSparksRight" type="Particles2D" parent="."]
@@ -163,6 +163,7 @@ position = Vector2( 4, 0 )
 emitting = false
 lifetime = 0.5
 randomness = 0.5
+local_coords = false
 process_material = SubResource( 15 )
 
 [connection signal="timeout" from="JumpBufferTimer" to="." method="_on_JumpBufferTimer_timeout"]
