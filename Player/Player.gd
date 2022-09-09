@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export(int) var JUMP_VELOCITY = 120
 export(int) var JUMP_RELEASE_VELOCITY = 60
-export(int) var DOUBLE_JUMP_COUNT = 0
+export(int) var DOUBLE_JUMP_COUNT = 1
 export(int) var ACCELERATION = 150
 export(float) var ACCELERATION_DAMPING = 0.12
 export(int) var FRICTION = 400
@@ -41,13 +41,15 @@ func move_state(input, delta):
 	
 	if input.x == 0:
 		apply_friction(delta)
-		animatedSprite.animation = "idle"
 		runningSparksLeft.emitting = false
 		runningSparksRight.emitting = false
+		if is_on_floor():
+			animatedSprite.animation = "idle"
 	if input.x != 0:
 		apply_acceleration(input, delta)
 		animatedSprite.flip_h = input.x < 0
-		animatedSprite.animation = "running"
+		if is_on_floor():
+			animatedSprite.animation = "running"
 		if input.x < 0 and velocity.x < 0:
 			runningSparksRight.emitting = true
 			runningSparksLeft.emitting = false
@@ -72,15 +74,18 @@ func move_state(input, delta):
 
 		if velocity.y > 0:
 			velocity.y += EXTRA_GRAVITY * delta
-			animatedSprite.animation = "jump"
-			animatedSprite.frame = 1
+			if double_jump >= DOUBLE_JUMP_COUNT:
+				animatedSprite.animation = "jump"
+				animatedSprite.frame = 1
 		else:
-			animatedSprite.animation = "jump"
-			animatedSprite.frame = 0
+			if double_jump >= DOUBLE_JUMP_COUNT:
+				animatedSprite.animation = "jump"
+				animatedSprite.frame = 0
 			
 		if Input.is_action_just_pressed("ui_up") and double_jump > 0:
 			velocity.y = -JUMP_VELOCITY
 			double_jump -= 1
+			animatedSprite.animation = "double jump"
 			
 		if Input.is_action_just_pressed("ui_up"):
 			buffered_jump = true
