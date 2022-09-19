@@ -107,6 +107,10 @@ func apply_acceleration(input, delta):
 	
 func apply_friction(delta):
 	velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+	
+func knockback(x_direction):
+	velocity.y = -JUMP_VELOCITY / 1.5
+	velocity.x = JUMP_VELOCITY / 1.5 * sign(x_direction)
 		
 func _on_JumpBufferTimer_timeout():
 	buffered_jump = false
@@ -115,4 +119,6 @@ func _on_CoyoteJumpTimer_timeout():
 	coyote_jump = false
 
 func _on_Hurtbox_area_entered(area):
+	var knockback_direction = global_position - area.global_position
+	knockback(knockback_direction.x)
 	print("ouchy")
