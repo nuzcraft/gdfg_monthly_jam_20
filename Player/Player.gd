@@ -113,3 +113,6 @@ func _on_JumpBufferTimer_timeout():
 
 func _on_CoyoteJumpTimer_timeout():
 	coyote_jump = false
+
+func _on_Hurtbox_area_entered(area):
+	print("ouchy")
