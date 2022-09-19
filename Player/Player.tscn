@@ -101,7 +101,6 @@ JUMP_RELEASE_VELOCITY = 30
 position = Vector2( 0, -3.48548 )
 frames = SubResource( 4 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
