@@ -1,7 +1,10 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://aseprite/003_old_man.png" type="Texture" id=2]
+[ext_resource path="res://shaders/whiten_material.tres" type="Material" id=3]
+[ext_resource path="res://Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Blinker.tscn" type="PackedScene" id=5]
 
 [sub_resource type="AtlasTexture" id=29]
 atlas = ExtResource( 2 )
@@ -98,9 +101,11 @@ script = ExtResource( 1 )
 JUMP_RELEASE_VELOCITY = 30
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = ExtResource( 3 )
 position = Vector2( 0, -3.48548 )
 frames = SubResource( 4 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -150,14 +155,17 @@ damping = 45.0
 damping_random = 0.25
 color_ramp = SubResource( 12 )
 
-[node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
+[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
+whiten_material = ExtResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2( 0.5, -3 )
 shape = SubResource( 33 )
+
+[node name="Blinker" parent="." instance=ExtResource( 5 )]
 
 [connection signal="timeout" from="JumpBufferTimer" to="." method="_on_JumpBufferTimer_timeout"]
 [connection signal="timeout" from="CoyoteJumpTimer" to="." method="_on_CoyoteJumpTimer_timeout"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+
+[editable path="Hurtbox"]

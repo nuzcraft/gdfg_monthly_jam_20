@@ -9,6 +9,7 @@ export(int) var FRICTION = 400
 export(int) var GRAVITY = 400
 export(int) var EXTRA_GRAVITY = 150
 export(int) var MAX_GRAVITY = 600
+export(int) var INVINCIBILITY_DURATION = 1
 
 enum {
 	MOVE
@@ -25,6 +26,8 @@ onready var jumpBufferTimer := $JumpBufferTimer
 onready var coyoteJumpTimer := $CoyoteJumpTimer
 onready var runningSparksLeft := $RunningSparksLeft
 onready var runningSparksRight := $RunningSparksRight
+onready var hurtbox := $Hurtbox
+onready var blinker := $Blinker
 onready var dustParticles := preload("res://Player/DustParticles.tscn")
 
 
@@ -119,6 +122,9 @@ func _on_CoyoteJumpTimer_timeout():
 	coyote_jump = false
 
 func _on_Hurtbox_area_entered(area):
-	var knockback_direction = global_position - area.global_position
-	knockback(knockback_direction.x)
-	print("ouchy")
+	if not hurtbox.is_invincible:
+		var knockback_direction = global_position - area.global_position
+		knockback(knockback_direction.x)
+		blinker.start_blinking(self, INVINCIBILITY_DURATION)
+		hurtbox.start_invincibility(INVINCIBILITY_DURATION)
+		print("ouchy")
