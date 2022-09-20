@@ -65,6 +65,14 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] #4 running animation - dragging the cane
 - [x] #6 particles from dragging the cane in run animation
 - [x] #7 jumping animation
-- [ ] #8 double jump animation (spinning?)
+- [x] #8 double jump animation (spinning?)
 - [x] #9 falling animation
 - [x] #10 particles on jump
+- [x] player flash on hit
+- [x] player knockback on hit
+- [x] player invulnerable for a bit on hit
+- [ ] enemy attacks
+- [ ] enemy flash before attack
+- [ ] player parry enemy attack
+- [ ] successful parry zooms in
+- [ ] successful parry slows time
