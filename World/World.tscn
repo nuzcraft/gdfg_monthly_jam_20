@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://World/TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://shaders/whiten_shader.tres" type="Shader" id=4]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/whiten = false
 
 [node name="World" type="Node2D"]
 position = Vector2( 0, 86 )
@@ -18,3 +24,4 @@ z_index = 10
 
 [node name="Enemy" parent="." instance=ExtResource( 3 )]
 position = Vector2( 96, -22 )
+whiten_material = SubResource( 1 )
