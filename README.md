@@ -71,8 +71,8 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] player flash on hit
 - [x] player knockback on hit
 - [x] player invulnerable for a bit on hit
-- [ ] enemy attacks
-- [ ] enemy flash before attack
-- [ ] player parry enemy attack
-- [ ] successful parry zooms in
-- [ ] successful parry slows time
+- [x] #14 enemy attacks
+- [x] #15 enemy flash before attack
+- [ ] #16 player parry enemy attack
+- [ ] #17 successful parry zooms in
+- [ ] #18 successful parry slows time
