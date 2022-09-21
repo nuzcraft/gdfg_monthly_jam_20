@@ -74,5 +74,12 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] #14 enemy attacks
 - [x] #15 enemy flash before attack
 - [x] #16 player parry enemy attack
-- [ ] #17 successful parry zooms in
-- [ ] #18 successful parry slows time
+- [x] #17 successful parry zooms in
+- [x] #18 successful parry slows time
+
+### Enemy
+
+- [x] enemy design
+- [ ] enemy attack animation
+- [ ] enemy can pursue player
+- [ ] enemy can choose when to attack
