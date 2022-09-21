@@ -31,6 +31,7 @@ onready var runningSparksRight := $RunningSparksRight
 onready var hurtbox := $Hurtbox
 onready var blinker := $Blinker
 onready var dustParticles := preload("res://Player/DustParticles.tscn")
+onready var remoteTransform2D := $RemoteTransform2D
 
 
 func _physics_process(delta):
@@ -134,3 +135,7 @@ func _on_Hurtbox_area_entered(area):
 		blinker.start_blinking(self, INVINCIBILITY_DURATION)
 		hurtbox.start_invincibility(INVINCIBILITY_DURATION)
 		print("ouchy")
+		
+func connectCamera(camera):
+	var camera_path = camera.get_path()
+	remoteTransform2D.remote_path = camera_path

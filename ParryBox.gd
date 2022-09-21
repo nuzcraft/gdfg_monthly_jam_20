@@ -11,6 +11,6 @@ func start_parry(parry_duration):
 	collisionShape.set_deferred('disabled', true)
 	is_parrying = false
 
-
 func _on_ParryBox_area_entered(area):
 	area.owner.parried()
+	Events.emit_signal("parried")
