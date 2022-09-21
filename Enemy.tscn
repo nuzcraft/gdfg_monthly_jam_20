@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Enemy.gd" type="Script" id=1]
 [ext_resource path="res://Hitbox.tscn" type="PackedScene" id=2]
-[ext_resource path="res://shaders/whiten_material.tres" type="Material" id=3]
+[ext_resource path="res://shaders/whiten_material2.tres" type="Material" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -13,7 +13,6 @@ extents = Vector2( 4.5, 3 )
 
 [node name="Enemy" type="KinematicBody2D"]
 script = ExtResource( 1 )
-whiten_material = ExtResource( 3 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
 material = ExtResource( 3 )

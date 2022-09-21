@@ -13,4 +13,4 @@ func start_parry(parry_duration):
 
 
 func _on_ParryBox_area_entered(area):
-	print('parried!')
+	area.owner.parried()

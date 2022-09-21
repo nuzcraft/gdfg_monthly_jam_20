@@ -9,7 +9,8 @@ export(int) var FRICTION = 400
 export(int) var GRAVITY = 400
 export(int) var EXTRA_GRAVITY = 150
 export(int) var MAX_GRAVITY = 600
-export(int) var INVINCIBILITY_DURATION = 1
+export(float) var INVINCIBILITY_DURATION = 1
+export(float) var PARRY_DURATION = 0.5
 
 enum {
 	MOVE
@@ -22,6 +23,7 @@ var buffered_jump = false
 var coyote_jump = false
 
 onready var animatedSprite := $AnimatedSprite
+onready var leftParryBox := $LeftParryBox
 onready var jumpBufferTimer := $JumpBufferTimer
 onready var coyoteJumpTimer := $CoyoteJumpTimer
 onready var runningSparksLeft := $RunningSparksLeft
@@ -35,6 +37,10 @@ func _physics_process(delta):
 	var input = Vector2.ZERO
 	input.x = Input.get_axis("ui_left", "ui_right")
 	input.y = Input.get_axis("ui_up", "ui_down")
+	
+	if Input.is_action_just_pressed("parry"):
+		leftParryBox.start_parry(PARRY_DURATION)
+		hurtbox.start_invincibility(PARRY_DURATION)
 	
 	match state:
 		MOVE: move_state(input, delta)

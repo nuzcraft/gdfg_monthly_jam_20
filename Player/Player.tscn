@@ -78,9 +78,6 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=34]
-extents = Vector2( 2, 4 )
-
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 3.5, 3 )
 
@@ -100,6 +97,9 @@ colors = PoolColorArray( 0.901961, 0.784314, 0.431373, 1, 0.843137, 0.45098, 0.3
 [sub_resource type="RectangleShape2D" id=33]
 extents = Vector2( 3.5, 3 )
 
+[sub_resource type="RectangleShape2D" id=34]
+extents = Vector2( 2, 4 )
+
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
 JUMP_RELEASE_VELOCITY = 30
@@ -109,15 +109,7 @@ material = ExtResource( 3 )
 position = Vector2( 0, -3.48548 )
 frames = SubResource( 4 )
 animation = "idle"
-frame = 1
 playing = true
-
-[node name="ParryBox" parent="AnimatedSprite" instance=ExtResource( 6 )]
-
-[node name="CollisionShape2D" parent="AnimatedSprite/ParryBox" index="0"]
-position = Vector2( 5, -0.51452 )
-shape = SubResource( 34 )
-disabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, -3 )
@@ -175,9 +167,17 @@ shape = SubResource( 33 )
 
 [node name="Blinker" parent="." instance=ExtResource( 5 )]
 
+[node name="LeftParryBox" parent="." instance=ExtResource( 6 )]
+position = Vector2( 0, -3.48548 )
+
+[node name="CollisionShape2D" parent="LeftParryBox" index="0"]
+position = Vector2( 5, -0.51452 )
+shape = SubResource( 34 )
+disabled = true
+
 [connection signal="timeout" from="JumpBufferTimer" to="." method="_on_JumpBufferTimer_timeout"]
 [connection signal="timeout" from="CoyoteJumpTimer" to="." method="_on_CoyoteJumpTimer_timeout"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 
-[editable path="AnimatedSprite/ParryBox"]
 [editable path="Hurtbox"]
+[editable path="LeftParryBox"]
