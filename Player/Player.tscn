@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://aseprite/003_old_man.png" type="Texture" id=2]
@@ -100,7 +100,11 @@ extents = Vector2( 3.5, 3 )
 [sub_resource type="RectangleShape2D" id=34]
 extents = Vector2( 2, 4 )
 
+[sub_resource type="RectangleShape2D" id=35]
+extents = Vector2( 2, 4 )
+
 [node name="Player" type="KinematicBody2D"]
+collision_layer = 16
 script = ExtResource( 1 )
 JUMP_RELEASE_VELOCITY = 30
 
@@ -178,9 +182,21 @@ disabled = true
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
 
+[node name="RightParryBox" parent="." instance=ExtResource( 6 )]
+
+[node name="CollisionShape2D" parent="RightParryBox" index="0"]
+position = Vector2( -5, -4 )
+shape = SubResource( 35 )
+disabled = true
+
+[node name="ParryTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="JumpBufferTimer" to="." method="_on_JumpBufferTimer_timeout"]
 [connection signal="timeout" from="CoyoteJumpTimer" to="." method="_on_CoyoteJumpTimer_timeout"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="timeout" from="ParryTimer" to="." method="_on_ParryTimer_timeout"]
 
 [editable path="Hurtbox"]
 [editable path="LeftParryBox"]
+[editable path="RightParryBox"]

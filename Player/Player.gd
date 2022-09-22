@@ -13,7 +13,8 @@ export(float) var INVINCIBILITY_DURATION = 1
 export(float) var PARRY_DURATION = 0.5
 
 enum {
-	MOVE
+	MOVE,
+	PARRY,
 }
 
 var velocity = Vector2.ZERO
@@ -24,8 +25,10 @@ var coyote_jump = false
 
 onready var animatedSprite := $AnimatedSprite
 onready var leftParryBox := $LeftParryBox
+onready var rightParryBox := $RightParryBox
 onready var jumpBufferTimer := $JumpBufferTimer
 onready var coyoteJumpTimer := $CoyoteJumpTimer
+onready var parryTimer := $ParryTimer
 onready var runningSparksLeft := $RunningSparksLeft
 onready var runningSparksRight := $RunningSparksRight
 onready var hurtbox := $Hurtbox
@@ -33,18 +36,17 @@ onready var blinker := $Blinker
 onready var dustParticles := preload("res://Player/DustParticles.tscn")
 onready var remoteTransform2D := $RemoteTransform2D
 
+func _ready():
+	Events.connect("parried", self, "_on_parried")
 
 func _physics_process(delta):
 	var input = Vector2.ZERO
 	input.x = Input.get_axis("ui_left", "ui_right")
 	input.y = Input.get_axis("ui_up", "ui_down")
 	
-	if Input.is_action_just_pressed("parry"):
-		leftParryBox.start_parry(PARRY_DURATION)
-		hurtbox.start_invincibility(PARRY_DURATION)
-	
 	match state:
 		MOVE: move_state(input, delta)
+		PARRY: parry_state()
 	
 func move_state(input, delta):
 	apply_gravity(delta)
@@ -66,6 +68,8 @@ func move_state(input, delta):
 		if input.x > 0 and velocity.x > 0:
 			runningSparksLeft.emitting = true
 			runningSparksRight.emitting	= false
+			
+	check_for_parry()
 		
 	if is_on_floor():
 		double_jump = DOUBLE_JUMP_COUNT
@@ -106,7 +110,10 @@ func move_state(input, delta):
 	if was_on_floor and not is_on_floor() and velocity.y > 0:
 		coyote_jump = true
 		coyoteJumpTimer.start()
-	
+
+func parry_state():
+	pass
+
 func apply_gravity(delta):
 	velocity.y += GRAVITY * delta
 	velocity.y = min(velocity.y, MAX_GRAVITY)
@@ -121,6 +128,14 @@ func apply_friction(delta):
 func knockback(x_direction):
 	velocity.y = -JUMP_VELOCITY / 1.5
 	velocity.x = JUMP_VELOCITY / 1.5 * sign(x_direction)
+	
+func check_for_parry():
+	if Input.is_action_just_pressed("parry"):
+		hurtbox.start_invincibility(PARRY_DURATION)
+		if not animatedSprite.flip_h:
+			leftParryBox.start_parry(PARRY_DURATION)
+		if animatedSprite.flip_h:
+			rightParryBox.start_parry(PARRY_DURATION)
 		
 func _on_JumpBufferTimer_timeout():
 	buffered_jump = false
@@ -139,3 +154,10 @@ func _on_Hurtbox_area_entered(area):
 func connectCamera(camera):
 	var camera_path = camera.get_path()
 	remoteTransform2D.remote_path = camera_path
+
+func _on_ParryTimer_timeout():
+	state = MOVE
+	
+func _on_parried():
+	state = PARRY
+	parryTimer.start()
