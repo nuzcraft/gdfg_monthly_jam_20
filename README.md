@@ -81,7 +81,7 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 ### Enemy
 
 - [x] enemy design
-- [ ] enemy attack animation
+- [x] enemy attack animation
 - [ ] enemy can pursue player
 - [ ] enemy can choose when to attack
 - [x] enemy can attack the direction of the player

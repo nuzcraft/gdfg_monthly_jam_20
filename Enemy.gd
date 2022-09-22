@@ -10,6 +10,7 @@ enum{
 var whiten_material = preload("res://shaders/whiten_material2.tres")
 var attacking_direction = null
 
+onready var animatedSprite := $AnimatedSprite
 onready var attackTimer := $AttackTimer
 onready var warningTimer := $WarningTimer
 onready var leftHitBox := $LeftHitbox
@@ -20,6 +21,7 @@ func _ready():
 	attackTimer.start()
 	leftHitBox.hide()
 	rightHitBox.hide()
+	animatedSprite.play("idle")
 	
 func _physics_process(delta):
 	pass
