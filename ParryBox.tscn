@@ -3,6 +3,7 @@
 [ext_resource path="res://ParryBox.gd" type="Script" id=1]
 
 [node name="ParryBox" type="Area2D"]
+visible = false
 collision_layer = 0
 collision_mask = 2
 script = ExtResource( 1 )

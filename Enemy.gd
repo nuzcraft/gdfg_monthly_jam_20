@@ -7,7 +7,8 @@ enum{
 	RIGHT
 }
 
-var whiten_material = preload("res://shaders/whiten_material2.tres")
+#var whiten_material = preload("res://shaders/whiten_material2.tres")
+var whiten_material = null
 var attacking_direction = null
 var can_attack = false
 var is_attacking = false
@@ -20,7 +21,9 @@ onready var rightHitBox := $RightHitbox
 onready var animationPlayer := $AnimationPlayer
 onready var player = get_tree().get_root().get_node("World/Player")
 
+
 func _ready():
+	whiten_material = animatedSprite.get_material()
 	leftHitBox.hide()
 	rightHitBox.hide()
 	animatedSprite.play("idle")

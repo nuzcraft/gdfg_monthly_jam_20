@@ -35,9 +35,13 @@ onready var hurtbox := $Hurtbox
 onready var blinker := $Blinker
 onready var dustParticles := preload("res://Player/DustParticles.tscn")
 onready var remoteTransform2D := $RemoteTransform2D
+onready var animationPlayer := $AnimationPlayer
+onready var parryFlash := $ParryFlash
 
 func _ready():
 	Events.connect("parried", self, "_on_parried")
+	animatedSprite.play("idle")
+	parryFlash.hide()
 
 func _physics_process(delta):
 	var input = Vector2.ZERO
@@ -55,21 +59,21 @@ func move_state(input, delta):
 		apply_friction(delta)
 		runningSparksLeft.emitting = false
 		runningSparksRight.emitting = false
-		if is_on_floor():
+		if is_on_floor() and not is_parrying():
 			animatedSprite.animation = "idle"
+			animatedSprite.playing = true
 	if input.x != 0:
 		apply_acceleration(input, delta)
 		animatedSprite.flip_h = input.x < 0
-		if is_on_floor():
+		if is_on_floor() and not is_parrying():
 			animatedSprite.animation = "running"
+			animatedSprite.playing = true
 		if input.x < 0 and velocity.x < 0:
 			runningSparksRight.emitting = true
 			runningSparksLeft.emitting = false
 		if input.x > 0 and velocity.x > 0:
 			runningSparksLeft.emitting = true
 			runningSparksRight.emitting	= false
-			
-	check_for_parry()
 		
 	if is_on_floor():
 		double_jump = DOUBLE_JUMP_COUNT
@@ -88,22 +92,28 @@ func move_state(input, delta):
 
 		if velocity.y > 0:
 			velocity.y += EXTRA_GRAVITY * delta
-			if double_jump >= DOUBLE_JUMP_COUNT:
+			if double_jump >= DOUBLE_JUMP_COUNT and not is_parrying():
 				animatedSprite.animation = "jump"
 				animatedSprite.frame = 1
+				animatedSprite.playing = false
 		else:
-			if double_jump >= DOUBLE_JUMP_COUNT:
+			if double_jump >= DOUBLE_JUMP_COUNT and not is_parrying():
 				animatedSprite.animation = "jump"
 				animatedSprite.frame = 0
+				animatedSprite.playing = false
 			
 		if Input.is_action_just_pressed("ui_up") and double_jump > 0:
 			velocity.y = -JUMP_VELOCITY
 			double_jump -= 1
-			animatedSprite.animation = "double jump"
+			if not is_parrying():
+				animatedSprite.animation = "double jump"
+				animatedSprite.playing = true
 			
 		if Input.is_action_just_pressed("ui_up"):
 			buffered_jump = true
 			jumpBufferTimer.start()
+			
+	check_for_parry()
 		
 	var was_on_floor = is_on_floor()	
 	velocity = move_and_slide(velocity, Vector2.UP)
@@ -131,6 +141,7 @@ func knockback(x_direction):
 	
 func check_for_parry():
 	if Input.is_action_just_pressed("parry"):
+		animatedSprite.animation = "parry"
 		hurtbox.start_invincibility(PARRY_DURATION)
 		if not animatedSprite.flip_h:
 			leftParryBox.start_parry(PARRY_DURATION)
@@ -161,3 +172,11 @@ func _on_ParryTimer_timeout():
 func _on_parried():
 	state = PARRY
 	parryTimer.start()
+	if animatedSprite.flip_h:
+		parryFlash.position.x = -6
+	else:
+		parryFlash.position.x = 6
+	animationPlayer.play("parry flash")
+	
+func is_parrying():
+	return leftParryBox.is_parrying or rightParryBox.is_parrying
