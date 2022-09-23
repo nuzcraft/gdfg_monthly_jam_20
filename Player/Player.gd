@@ -11,6 +11,7 @@ export(int) var EXTRA_GRAVITY = 150
 export(int) var MAX_GRAVITY = 600
 export(float) var INVINCIBILITY_DURATION = 1
 export(float) var PARRY_DURATION = 0.5
+export(float) var COUNTERATTACK_VELOCITY = 150
 
 enum {
 	MOVE,
@@ -22,6 +23,7 @@ var state = MOVE
 var double_jump = DOUBLE_JUMP_COUNT
 var buffered_jump = false
 var coyote_jump = false
+var counterattack = 1
 
 onready var animatedSprite := $AnimatedSprite
 onready var leftParryBox := $LeftParryBox
@@ -50,7 +52,7 @@ func _physics_process(delta):
 	
 	match state:
 		MOVE: move_state(input, delta)
-		PARRY: parry_state()
+		PARRY: parry_state(input, delta)
 	
 func move_state(input, delta):
 	apply_gravity(delta)
@@ -121,8 +123,17 @@ func move_state(input, delta):
 		coyote_jump = true
 		coyoteJumpTimer.start()
 
-func parry_state():
-	pass
+func parry_state(input, delta):
+	apply_gravity(delta)
+	apply_friction(delta)
+	if Input.is_action_just_pressed("parry") and counterattack > 0:
+		input = input.normalized()
+		if input.x:
+			velocity.x = sign(input.x) * COUNTERATTACK_VELOCITY
+		if input.y:
+			velocity.y = sign(input.y) * COUNTERATTACK_VELOCITY
+		counterattack -= 1
+	velocity = move_and_slide(velocity, Vector2.UP)
 
 func apply_gravity(delta):
 	velocity.y += GRAVITY * delta
@@ -168,6 +179,7 @@ func connectCamera(camera):
 
 func _on_ParryTimer_timeout():
 	state = MOVE
+	counterattack = 1
 	
 func _on_parried():
 	state = PARRY
