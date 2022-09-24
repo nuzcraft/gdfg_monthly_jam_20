@@ -206,4 +206,4 @@ func is_parrying():
 	
 func die():
 	if not hurtbox.is_invincible:
-		get_tree().reload_current_scene()
+		Events.emit_signal("player_died")

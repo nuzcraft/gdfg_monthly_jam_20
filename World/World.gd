@@ -11,23 +11,28 @@ onready var heart3 := $"HUD/Heart 3"
 onready var enemy := preload("res://Enemy.tscn")
 onready var spawners := get_tree().get_nodes_in_group("spawners")
 onready var spawnTimer := $SpawnTimer
+onready var restart := $Restart
 
 var score = 0
 var rng = RandomNumberGenerator.new()
 var game_started = false
+var player_dead = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player.connectCamera(camera)
 	Events.connect("parried", self, "_on_parried")
 	Events.connect("enemy_died", self, "_on_enemy_died")
+	Events.connect("player_died", self, "_on_player_died")
 	title.show()
 	hud.hide()
+	restart.hide()
 	
 	
 func start_game():
 	title.hide()
 	hud.show()
+	restart.hide()
 	spawnTimer.start()
 	spawn_enemy()
 	spawn_enemy()
@@ -46,6 +51,10 @@ func _input(event):
 	if not game_started:
 		if event.is_pressed():
 			start_game()
+			
+	if player_dead:
+		if event.is_pressed():
+			get_tree().reload_current_scene()
 
 
 func _on_parried():
@@ -78,3 +87,9 @@ func make_it_harder(score):
 		spawnTimer.wait_time = 6
 	if score >= 20:
 		spawnTimer.wait_time = 4
+
+func _on_player_died():
+	restart.show()
+	yield(get_tree().create_timer(3.0), "timeout")
+	player_dead = true
+	
