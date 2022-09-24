@@ -78,7 +78,7 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] #16 player parry enemy attack
 - [x] #17 successful parry zooms in
 - [x] #18 successful parry slows time
-- [ ] player can parry in direction they are facing
+- [x] player can parry in direction they are facing
 
 ### Enemy
 
@@ -97,7 +97,7 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] player gets score when enemies die
 - [x] health points and score shown on screen
 - [x] new enemies spawn in at accellerating pace
-- [ ] title screen
+- [x] title screen
 - [ ] end screen
 - [ ] sound effects
 - [ ] music

@@ -3,6 +3,8 @@ extends Node2D
 onready var player := $Player
 onready var camera := $Camera2D
 onready var scoreLabel := $HUD/ScoreLabel
+onready var hud := $HUD
+onready var title := $Title
 onready var heart1 := $"HUD/Heart 1"
 onready var heart2 := $"HUD/Heart 2"
 onready var heart3 := $"HUD/Heart 3"
@@ -12,16 +14,25 @@ onready var spawnTimer := $SpawnTimer
 
 var score = 0
 var rng = RandomNumberGenerator.new()
+var game_started = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player.connectCamera(camera)
 	Events.connect("parried", self, "_on_parried")
 	Events.connect("enemy_died", self, "_on_enemy_died")
+	title.show()
+	hud.hide()
+	
+	
+func start_game():
+	title.hide()
+	hud.show()
 	spawnTimer.start()
 	spawn_enemy()
 	spawn_enemy()
 	spawn_enemy()
+	game_started = true
 	
 func _physics_process(delta):
 	if player.health < 3:
@@ -30,6 +41,11 @@ func _physics_process(delta):
 		heart2.visible = false
 	if player.health < 1:
 		heart1.visible = false
+
+func _input(event):
+	if not game_started:
+		if event.is_pressed():
+			start_game()
 
 
 func _on_parried():

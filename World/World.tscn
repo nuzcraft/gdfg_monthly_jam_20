@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://World/TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,16 @@
 [ext_resource path="res://aseprite/heart.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=4]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=5]
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
@@ -75,5 +85,31 @@ texture = ExtResource( 6 )
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 10.0
+
+[node name="Title" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Title"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -26.0
+margin_bottom = 26.0
+
+[node name="TitleLable" type="Label" parent="Title/VBoxContainer"]
+margin_right = 128.0
+margin_bottom = 33.0
+custom_fonts/font = SubResource( 4 )
+text = "Cactus Punch
+Parry"
+align = 1
+valign = 1
+
+[node name="Press button" type="Label" parent="Title/VBoxContainer"]
+margin_top = 37.0
+margin_right = 128.0
+margin_bottom = 52.0
+custom_fonts/font = SubResource( 5 )
+text = "Press a Key = Start"
+align = 1
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
