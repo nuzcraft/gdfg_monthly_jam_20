@@ -286,7 +286,6 @@ disabled = true
 one_shot = true
 
 [node name="ParryFlash" type="Sprite" parent="."]
-visible = false
 material = ExtResource( 7 )
 position = Vector2( 6, -5 )
 texture = ExtResource( 8 )

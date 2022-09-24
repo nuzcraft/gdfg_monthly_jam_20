@@ -12,11 +12,14 @@ onready var enemy := preload("res://Enemy.tscn")
 onready var spawners := get_tree().get_nodes_in_group("spawners")
 onready var spawnTimer := $SpawnTimer
 onready var restart := $Restart
+onready var controls := $Controls
 
 var score = 0
 var rng = RandomNumberGenerator.new()
 var game_started = false
+var controls_shown = false
 var player_dead = false
+var dead_sound_played = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,17 +30,21 @@ func _ready():
 	title.show()
 	hud.hide()
 	restart.hide()
+	controls.hide()
 	
 	
 func start_game():
 	title.hide()
 	hud.show()
 	restart.hide()
+	controls.hide()
 	spawnTimer.start()
 	spawn_enemy()
 	spawn_enemy()
 	spawn_enemy()
 	game_started = true
+	dead_sound_played = false
+	SoundPlayer.play_music(SoundPlayer.MUSIC)
 	
 func _physics_process(delta):
 	if player.health < 3:
@@ -49,8 +56,12 @@ func _physics_process(delta):
 
 func _input(event):
 	if not game_started:
-		if event.is_pressed():
+		if event.is_pressed() and controls_shown:
 			start_game()
+		if event.is_pressed() and not controls_shown:
+			title.hide()
+			controls.show()
+			controls_shown = true
 			
 	if player_dead:
 		if event.is_pressed():
@@ -81,15 +92,34 @@ func spawn_enemy():
 	add_child(new_enemy)
 	
 func make_it_harder(score):
-	if score >= 5:
+	if score == 5:
 		spawnTimer.wait_time = 8
-	if score >= 10:
-		spawnTimer.wait_time = 6
-	if score >= 20:
-		spawnTimer.wait_time = 4
+		spawn_enemy()
+		spawn_enemy()
+	if score == 10:
+		spawnTimer.wait_time = 5
+		spawn_enemy()
+		spawn_enemy()
+		spawn_enemy()
+	if score == 20:
+		spawnTimer.wait_time = 3.5
+		spawn_enemy()
+		spawn_enemy()
+		spawn_enemy()
+	if score == 50:
+		spawnTimer.wait_time = 2
+		spawn_enemy()
+		spawn_enemy()
+		spawn_enemy()
+		spawn_enemy()
 
 func _on_player_died():
 	restart.show()
-	yield(get_tree().create_timer(3.0), "timeout")
+	SoundPlayer.stop_music()
+	if dead_sound_played == false:
+		SoundPlayer.play_sound(SoundPlayer.LOSE)
+		dead_sound_played = true
+	yield(get_tree().create_timer(2.0), "timeout")
 	player_dead = true
+	
 	

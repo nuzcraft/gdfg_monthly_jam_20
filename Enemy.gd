@@ -62,11 +62,13 @@ func attack(direction):
 		yield(get_tree().create_timer(0.1), 'timeout')
 		leftHitBox.show()
 		leftHitBox.start_attack(attack_duration)
+		SoundPlayer.play_sound(SoundPlayer.ENEMY_ATTACK)
 	if direction == RIGHT:
 		animationPlayer.play("attack right")
 		yield(get_tree().create_timer(0.1), 'timeout')
 		rightHitBox.show()
 		rightHitBox.start_attack(attack_duration)
+		SoundPlayer.play_sound(SoundPlayer.ENEMY_ATTACK)
 	
 func whiten():
 	whiten_material.set_shader_param('whiten', true)
@@ -100,6 +102,7 @@ func _on_AttackTimer_timeout():
 			velocity.x = JUMP_VELOCITY
 		velocity.y = -JUMP_VELOCITY/2
 		animatedSprite.play("jump")
+		SoundPlayer.play_sound(SoundPlayer.ENEMY_JUMP)
 	
 func start_attack():
 	get_attacking_direction()
@@ -111,6 +114,7 @@ func start_attack():
 	animatedSprite.playing = false
 	whiten()
 	warningTimer.start()
+	SoundPlayer.play_sound(SoundPlayer.ENEMY_ATTACK)
 
 func _on_LeftHitbox_attack_complete():
 	leftHitBox.hide()
@@ -156,6 +160,7 @@ func _on_Hurtbox_area_entered(area):
 		blinker.start_blinking(self, INVINCIBILITY_DURATION)
 		hurtbox.start_invincibility(INVINCIBILITY_DURATION)
 		health -= 1
+		SoundPlayer.play_sound(SoundPlayer.HURT)
 		
 func die():
 	if not hurtbox.is_invincible:

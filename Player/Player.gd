@@ -92,6 +92,7 @@ func move_state(input, delta):
 			add_child(dustParticles.instance())
 			velocity.y = -JUMP_VELOCITY
 			buffered_jump = false
+			SoundPlayer.play_sound(SoundPlayer.PLAYER_JUMP)
 		
 	if not is_on_floor():
 		runningSparksLeft.emitting = false
@@ -114,6 +115,7 @@ func move_state(input, delta):
 		if Input.is_action_just_pressed("ui_up") and double_jump > 0:
 			velocity.y = -JUMP_VELOCITY
 			double_jump -= 1
+			SoundPlayer.play_sound(SoundPlayer.PLAYER_JUMP)
 			if not is_parrying():
 				animatedSprite.animation = "double jump"
 				animatedSprite.playing = true
@@ -140,9 +142,14 @@ func parry_state(input, delta):
 		if input.y:
 			velocity.y = sign(input.y) * COUNTERATTACK_VELOCITY
 		counterattack -= 1
+		if sign(input.x) == 1:
+			animatedSprite.flip_h = false
+		if sign(input.x) == -1:
+			animatedSprite.flip_h = true
 		animatedSprite.animation = 'running'
 		animatedSprite.frame = 3
 		animatedSprite.playing = false
+		SoundPlayer.play_sound(SoundPlayer.PLAYER_ATTACK)
 		hitbox.start_attack(1.2)
 	velocity = move_and_slide(velocity, Vector2.UP)
 
@@ -183,6 +190,7 @@ func _on_Hurtbox_area_entered(area):
 		blinker.start_blinking(self, INVINCIBILITY_DURATION)
 		hurtbox.start_invincibility(INVINCIBILITY_DURATION)
 		health -= 1
+		SoundPlayer.play_sound(SoundPlayer.HURT)
 		
 func connectCamera(camera):
 	var camera_path = camera.get_path()
@@ -200,6 +208,7 @@ func _on_parried():
 	else:
 		parryFlash.position.x = 6
 	animationPlayer.play("parry flash")
+	SoundPlayer.play_sound(SoundPlayer.PLAYER_PARRY)
 	
 func is_parrying():
 	return leftParryBox.is_parrying or rightParryBox.is_parrying

@@ -98,8 +98,8 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] health points and score shown on screen
 - [x] new enemies spawn in at accellerating pace
 - [x] title screen
-- [ ] end screen
-- [ ] sound effects
+- [x] end screen
+- [x] sound effects
 - [ ] music
 - [ ] controls popup when in parry mode
 - [ ] new icon
