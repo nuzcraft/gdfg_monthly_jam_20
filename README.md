@@ -104,3 +104,4 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [ ] controls popup when in parry mode
 - [ ] new icon
 - [ ] windows and html5 builds
+- [ ] screen shake
