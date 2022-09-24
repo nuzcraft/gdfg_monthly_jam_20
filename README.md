@@ -95,8 +95,8 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] player has health points and loses them when he gets hit
 - [x] player death
 - [x] player gets score when enemies die
-- [ ] health points and score shown on screen
-- [ ] new enemies spawn in at accellerating pace
+- [x] health points and score shown on screen
+- [x] new enemies spawn in at accellerating pace
 - [ ] title screen
 - [ ] end screen
 - [ ] sound effects

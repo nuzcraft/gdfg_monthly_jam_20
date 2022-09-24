@@ -93,7 +93,7 @@ func _on_AttackTimer_timeout():
 	if can_attack:
 		start_attack()
 		is_attacking = true
-	else:
+	elif position.distance_to(player.position) < 60:
 		if get_direction_to_player() == LEFT:
 			velocity.x = -JUMP_VELOCITY
 		else:
