@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Player/Player.gd"
+} ]
+_global_script_class_icons={
+"Player": ""
+}
+
 [application]
 
 config/name="GDFG Monthly Jam 20"
@@ -93,11 +103,13 @@ parry={
 [layer_names]
 
 2d_physics/layer_1="world"
-2d_physics/layer_2="hitboxes"
-2d_physics/layer_3="hurtboxes"
+2d_physics/layer_2="enemy hitboxes"
+2d_physics/layer_3="player hurtboxes"
 2d_physics/layer_4="parryboxes"
 2d_physics/layer_5="player"
 2d_physics/layer_6="enemy"
+2d_physics/layer_7="player hitboxes"
+2d_physics/layer_8="enemy hurtboxes"
 
 [physics]
 

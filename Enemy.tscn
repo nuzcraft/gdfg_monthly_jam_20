@@ -1,9 +1,11 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Enemy.gd" type="Script" id=1]
 [ext_resource path="res://Hitbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://shaders/whiten_material2.tres" type="Material" id=3]
 [ext_resource path="res://aseprite/001_cactus_idle.png" type="Texture" id=4]
+[ext_resource path="res://Hurtbox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Blinker.tscn" type="PackedScene" id=6]
 
 [sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 4 )
@@ -210,6 +212,9 @@ tracks/2/keys = {
 "values": [ false ]
 }
 
+[sub_resource type="RectangleShape2D" id=40]
+extents = Vector2( 4, 4.5 )
+
 [node name="Enemy" type="KinematicBody2D"]
 collision_layer = 32
 script = ExtResource( 1 )
@@ -253,10 +258,22 @@ anims/RESET = SubResource( 23 )
 "anims/attack left" = SubResource( 24 )
 "anims/attack right" = SubResource( 25 )
 
+[node name="Hurtbox" parent="." instance=ExtResource( 5 )]
+collision_mask = 64
+whiten_material = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 0, -4.5 )
+shape = SubResource( 40 )
+
+[node name="Blinker" parent="." instance=ExtResource( 6 )]
+
 [connection signal="timeout" from="WarningTimer" to="." method="_on_WarningTimer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="attack_complete" from="LeftHitbox" to="." method="_on_LeftHitbox_attack_complete"]
 [connection signal="attack_complete" from="RightHitbox" to="." method="_on_RightHitbox_attack_complete"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 
 [editable path="LeftHitbox"]
 [editable path="RightHitbox"]
+[editable path="Hurtbox"]

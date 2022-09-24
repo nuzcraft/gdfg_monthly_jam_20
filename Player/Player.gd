@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 
 export(int) var JUMP_VELOCITY = 120
 export(int) var JUMP_RELEASE_VELOCITY = 60
@@ -12,6 +13,7 @@ export(int) var MAX_GRAVITY = 600
 export(float) var INVINCIBILITY_DURATION = 1
 export(float) var PARRY_DURATION = 0.5
 export(float) var COUNTERATTACK_VELOCITY = 150
+export(int) var MAX_HEALTH = 3
 
 enum {
 	MOVE,
@@ -24,6 +26,7 @@ var double_jump = DOUBLE_JUMP_COUNT
 var buffered_jump = false
 var coyote_jump = false
 var counterattack = 1
+var health = MAX_HEALTH
 
 onready var animatedSprite := $AnimatedSprite
 onready var leftParryBox := $LeftParryBox
@@ -39,6 +42,7 @@ onready var dustParticles := preload("res://Player/DustParticles.tscn")
 onready var remoteTransform2D := $RemoteTransform2D
 onready var animationPlayer := $AnimationPlayer
 onready var parryFlash := $ParryFlash
+onready var hitbox := $Hitbox
 
 func _ready():
 	Events.connect("parried", self, "_on_parried")
@@ -49,6 +53,9 @@ func _physics_process(delta):
 	var input = Vector2.ZERO
 	input.x = Input.get_axis("ui_left", "ui_right")
 	input.y = Input.get_axis("ui_up", "ui_down")
+	
+	if health <= 0:
+		die()
 	
 	match state:
 		MOVE: move_state(input, delta)
@@ -133,6 +140,10 @@ func parry_state(input, delta):
 		if input.y:
 			velocity.y = sign(input.y) * COUNTERATTACK_VELOCITY
 		counterattack -= 1
+		animatedSprite.animation = 'running'
+		animatedSprite.frame = 3
+		animatedSprite.playing = false
+		hitbox.start_attack(1.2)
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 func apply_gravity(delta):
@@ -171,7 +182,7 @@ func _on_Hurtbox_area_entered(area):
 		knockback(knockback_direction.x)
 		blinker.start_blinking(self, INVINCIBILITY_DURATION)
 		hurtbox.start_invincibility(INVINCIBILITY_DURATION)
-		print("ouchy")
+		health -= 1
 		
 func connectCamera(camera):
 	var camera_path = camera.get_path()
@@ -192,3 +203,7 @@ func _on_parried():
 	
 func is_parrying():
 	return leftParryBox.is_parrying or rightParryBox.is_parrying
+	
+func die():
+	if not hurtbox.is_invincible:
+		get_tree().reload_current_scene()

@@ -7,11 +7,20 @@ enum{
 	RIGHT
 }
 
+export(int) var FRICTION = 400
+export(int) var GRAVITY = 400
+export(int) var MAX_GRAVITY = 600
+export(int) var JUMP_VELOCITY = 120
+export(int) var ATTACK_DISTANCE = 30
+export(float) var INVINCIBILITY_DURATION = 1.5
+export(int) var health = 2
+
 #var whiten_material = preload("res://shaders/whiten_material2.tres")
 var whiten_material = null
 var attacking_direction = null
 var can_attack = false
 var is_attacking = false
+var velocity = Vector2.ZERO
 
 onready var animatedSprite := $AnimatedSprite
 onready var attackTimer := $AttackTimer
@@ -19,6 +28,8 @@ onready var warningTimer := $WarningTimer
 onready var leftHitBox := $LeftHitbox
 onready var rightHitBox := $RightHitbox
 onready var animationPlayer := $AnimationPlayer
+onready var hurtbox := $Hurtbox
+onready var blinker := $Blinker
 onready var player = get_tree().get_root().get_node("World/Player")
 
 
@@ -30,10 +41,20 @@ func _ready():
 	attackTimer.start()
 	
 func _physics_process(delta):
-	if global_position.distance_to(player.global_position) < 50 and not is_attacking:
+	if global_position.distance_to(player.global_position) < ATTACK_DISTANCE and not is_attacking:
 		can_attack = true
 	else:
 		can_attack = false
+	apply_gravity(delta)
+	apply_friction(delta)
+	
+	if velocity.x == 0 and not is_attacking:
+		animatedSprite.play("idle")
+	
+	if health <= 0:
+		die()
+	
+	velocity = move_and_slide(velocity, Vector2.UP)
 
 func attack(direction):
 	if direction == LEFT:
@@ -72,6 +93,13 @@ func _on_AttackTimer_timeout():
 	if can_attack:
 		start_attack()
 		is_attacking = true
+	else:
+		if get_direction_to_player() == LEFT:
+			velocity.x = -JUMP_VELOCITY
+		else:
+			velocity.x = JUMP_VELOCITY
+		velocity.y = -JUMP_VELOCITY/2
+		animatedSprite.play("jump")
 	
 func start_attack():
 	get_attacking_direction()
@@ -109,3 +137,27 @@ func get_direction_to_player():
 func get_attacking_direction():
 	attacking_direction = get_direction_to_player()
 	
+func apply_gravity(delta):
+	velocity.y += GRAVITY * delta
+	velocity.y = min(velocity.y, MAX_GRAVITY)
+	
+	
+func apply_friction(delta):
+	velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+	
+func knockback(x_direction):
+	velocity.y = -JUMP_VELOCITY / 1.5
+	velocity.x = JUMP_VELOCITY / 1.5 * sign(x_direction)
+	
+func _on_Hurtbox_area_entered(area):
+	if not hurtbox.is_invincible:
+		var knockback_direction = global_position - area.global_position
+		knockback(knockback_direction.x)
+		blinker.start_blinking(self, INVINCIBILITY_DURATION)
+		hurtbox.start_invincibility(INVINCIBILITY_DURATION)
+		health -= 1
+		
+func die():
+	if not hurtbox.is_invincible:
+		Events.emit_signal("enemy_died")
+		queue_free()
