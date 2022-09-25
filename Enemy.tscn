@@ -1,29 +1,234 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Enemy.gd" type="Script" id=1]
 [ext_resource path="res://Hitbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://shaders/whiten_material2.tres" type="Material" id=3]
-[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://aseprite/001_cactus_idle.png" type="Texture" id=4]
+[ext_resource path="res://Hurtbox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Blinker.tscn" type="PackedScene" id=6]
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 18, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 4 )
+region = Rect2( 20, 18, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 4 )
+region = Rect2( 40, 18, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 27, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 4 )
+region = Rect2( 20, 27, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 4 )
+region = Rect2( 40, 27, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=32]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 4 )
+region = Rect2( 20, 0, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 4 )
+region = Rect2( 40, 0, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 4 )
+region = Rect2( 60, 0, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 9, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 4 )
+region = Rect2( 20, 9, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 4 )
+region = Rect2( 40, 9, 20, 9 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 4 )
+region = Rect2( 60, 9, 20, 9 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
+"loop": true,
+"name": "attack left",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"loop": true,
+"name": "attack right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+} ]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5, 5 )
+extents = Vector2( 2, 3.5 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 4.5, 3 )
+extents = Vector2( 3, 3.5 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 3, 3.25 )
+
+[sub_resource type="Animation" id=23]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "attack left" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "attack left"
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "attack left" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 2 ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "attack right"
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "attack right" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 2 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="RectangleShape2D" id=40]
+extents = Vector2( 4, 4.5 )
 
 [node name="Enemy" type="KinematicBody2D"]
+collision_layer = 32
 script = ExtResource( 1 )
+health = 1
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 3 )
-margin_left = -5.0
-margin_top = -10.0
-margin_right = 5.0
-texture = ExtResource( 4 )
-expand = true
+position = Vector2( 0, -4.5 )
+frames = SubResource( 7 )
+animation = "attack left"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -5 )
+position = Vector2( 0, -3.5 )
 shape = SubResource( 1 )
 
 [node name="WarningTimer" type="Timer" parent="."]
@@ -32,24 +237,44 @@ one_shot = true
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 3.0
-one_shot = true
 
 [node name="LeftHitbox" parent="." instance=ExtResource( 2 )]
+z_index = -1
 
 [node name="CollisionShape2D" parent="LeftHitbox" index="0"]
-position = Vector2( -7.5, -5 )
+position = Vector2( -7, -4.5 )
 shape = SubResource( 2 )
 disabled = true
 
-[node name="ColorRect" type="ColorRect" parent="LeftHitbox"]
-margin_left = -12.0
-margin_top = -8.0
-margin_right = -3.0
-margin_bottom = -2.0
-color = Color( 0.843137, 0.45098, 0.333333, 1 )
+[node name="RightHitbox" parent="." instance=ExtResource( 2 )]
+z_index = -1
+
+[node name="CollisionShape2D" parent="RightHitbox" index="0"]
+position = Vector2( 7, -4.75 )
+shape = SubResource( 8 )
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 23 )
+"anims/attack left" = SubResource( 24 )
+"anims/attack right" = SubResource( 25 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 5 )]
+collision_mask = 64
+whiten_material = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 0, -4.5 )
+shape = SubResource( 40 )
+
+[node name="Blinker" parent="." instance=ExtResource( 6 )]
 
 [connection signal="timeout" from="WarningTimer" to="." method="_on_WarningTimer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="attack_complete" from="LeftHitbox" to="." method="_on_LeftHitbox_attack_complete"]
+[connection signal="attack_complete" from="RightHitbox" to="." method="_on_RightHitbox_attack_complete"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 
 [editable path="LeftHitbox"]
+[editable path="RightHitbox"]
+[editable path="Hurtbox"]

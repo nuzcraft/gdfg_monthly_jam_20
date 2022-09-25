@@ -1,0 +1,21 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform bool whiten = false;
+
+void fragment(){
+	vec4 texture_color = texture(TEXTURE, UV);
+	if (whiten) {
+		vec4 white = vec4(1, 1, 1, 1);
+		vec4 whitened_texture = mix(texture_color, white, 0.8);
+		COLOR = whitened_texture;
+	} else {
+		COLOR = texture_color;
+	}
+	
+	
+}
+
+"

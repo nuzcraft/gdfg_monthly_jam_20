@@ -5,6 +5,8 @@ Potential submission for Game Dev Field Guide Monthly Jam
 Theme: Interruption
 Modifier: Storytelling
 
+Rainy Hearts font by Camellina
+
 ## Overview and self-restrictions
 
 I'm still new to game dev. This jam is a month long, and I will likely procrastinate. I'm also planning on participating in the Vim Jam this month, so making 2 small games in one month will be a big task for me.  
@@ -74,5 +76,32 @@ I'm learning platformer controls and such w/ godot, so in an effort to keep scop
 - [x] #14 enemy attacks
 - [x] #15 enemy flash before attack
 - [x] #16 player parry enemy attack
-- [ ] #17 successful parry zooms in
-- [ ] #18 successful parry slows time
+- [x] #17 successful parry zooms in
+- [x] #18 successful parry slows time
+- [x] player can parry in direction they are facing
+
+### Enemy
+
+- [x] enemy design
+- [x] enemy attack animation
+- [x] enemy can pursue player
+- [x] enemy can choose when to attack
+- [x] enemy can attack the direction of the player
+
+### I'm tired, what can we do to finish this quick?
+
+- [x] player parry attack has new animation
+- [x] player parry attack damages enemy (destroys it?)
+- [x] player has health points and loses them when he gets hit
+- [x] player death
+- [x] player gets score when enemies die
+- [x] health points and score shown on screen
+- [x] new enemies spawn in at accellerating pace
+- [x] title screen
+- [x] end screen
+- [x] sound effects
+- [ ] music
+- [ ] controls popup when in parry mode
+- [ ] new icon
+- [ ] windows and html5 builds
+- [ ] screen shake
